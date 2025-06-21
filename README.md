@@ -23,3 +23,5 @@ instale as dependências
 
 pip install -r requirements.txt
 
+streamlit run app.py (Rode o projeto)
+
