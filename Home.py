@@ -14,7 +14,7 @@ st.title("🩺 Análise Exploratória de Dados de Diabetes")
 
 st.markdown("""
 Esta aplicação interativa foi criada para analisar o dataset de previsão de diabetes.
-Explore as diferentes seções analíticas usando o menu de navegação na barra lateral à esquerda.
+Explore as diferentes seções usando o menu de navegação na barra lateral à esquerda.
 
 ### O que você encontrará:
 - **Visão Geral do Dataset:** Informações básicas, resumo estatístico e tipos de dados.
