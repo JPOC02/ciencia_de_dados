@@ -25,7 +25,5 @@ pip install -r requirements.txt
 
 streamlit run Home.py (Rode o projeto)
 
-
-
 se add alguma dependencia, rode:
 pip freeze > requirements.txt
