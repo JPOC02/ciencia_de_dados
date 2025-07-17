@@ -9,9 +9,6 @@ from sklearn.metrics import accuracy_score, classification_report, confusion_mat
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-import sys
-st.write(f"Caminho do interpretador Python sendo usado: **{sys.executable}**")
-
 # Importe o SMOTE (instale com: pip install imbalanced-learn)
 from imblearn.over_sampling import SMOTE
 
@@ -59,6 +56,20 @@ def train_model(df, balancing_strategy='Nenhum'):
     
     return model, acc, report, cm
 
+
+def user_input_features():
+    pregnancies = st.sidebar.slider('Gestações', 0, 17, 3)
+    glucose = st.sidebar.slider('Glicose', 40, 200, 117)
+    blood_pressure = st.sidebar.slider('Pressão Sanguínea', 20, 122, 72)
+    skin_thickness = st.sidebar.slider('Espessura da Pele', 7, 99, 29)
+    insulin = st.sidebar.slider('Insulina', 14, 846, 125)
+    bmi = st.sidebar.slider('IMC', 18.0, 67.0, 32.3, 0.1)
+    dpf = st.sidebar.slider('Histórico Familiar', 0.078, 2.42, 0.3725, 0.001)
+    age = st.sidebar.slider('Idade', 21, 81, 29)
+    data = {'Pregnancies': pregnancies, 'Glucose': glucose, 'BloodPressure': blood_pressure, 'SkinThickness': skin_thickness, 'Insulin': insulin, 'BMI': bmi, 'DiabetesPedigreeFunction': dpf, 'Age': age}
+    features = pd.DataFrame(data, index=[0])
+    return features
+
 # --- Configuração da Página ---
 st.set_page_config(page_title="Classificação Interativa", layout="wide")
 
@@ -79,29 +90,15 @@ with st.expander("Análise Exploratória e Tratamento dos Dados"):
     st.write(f"Amostras 'Com Diabetes' (1): **{class_dist[1]}**")
     st.warning("O dataset é desbalanceado, o que pode levar a um modelo com predições enviesadas.")
 
-    st.subheader("Tratamento de Valores Nulos (Zeros)")
     cols_to_replace = ["Glucose", "BloodPressure", "SkinThickness", "Insulin", "BMI"]
     for col in cols_to_replace:
         df[col] = df[col].replace(0, np.nan)
         median_val = df[col].median()
         df[col] = df[col].fillna(median_val)
-    st.success("Tratamento de zeros concluído.")
 
 # --- Barra Lateral (Sidebar) ---
 st.sidebar.header("Insira os Dados do Paciente")
 
-def user_input_features():
-    pregnancies = st.sidebar.slider('Gestações', 0, 17, 3)
-    glucose = st.sidebar.slider('Glicose', 40, 200, 117)
-    blood_pressure = st.sidebar.slider('Pressão Sanguínea', 20, 122, 72)
-    skin_thickness = st.sidebar.slider('Espessura da Pele', 7, 99, 29)
-    insulin = st.sidebar.slider('Insulina', 14, 846, 125)
-    bmi = st.sidebar.slider('IMC', 18.0, 67.0, 32.3, 0.1)
-    dpf = st.sidebar.slider('Histórico Familiar', 0.078, 2.42, 0.3725, 0.001)
-    age = st.sidebar.slider('Idade', 21, 81, 29)
-    data = {'Pregnancies': pregnancies, 'Glucose': glucose, 'BloodPressure': blood_pressure, 'SkinThickness': skin_thickness, 'Insulin': insulin, 'BMI': bmi, 'DiabetesPedigreeFunction': dpf, 'Age': age}
-    features = pd.DataFrame(data, index=[0])
-    return features
 
 input_df = user_input_features()
 
